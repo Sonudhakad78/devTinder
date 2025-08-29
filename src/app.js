@@ -3,7 +3,7 @@ const app = express();
 
 app.get("/user", (req, res) => {
   // logic to fetch the data
-  res.send("data is fetched successfully");
+  res.send({name: "sonu", age: "20", city: "bhopal"});
 });
 
 app.post("/user", (req, res) => {
