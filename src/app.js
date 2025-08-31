@@ -18,6 +18,22 @@ app.delete("admin/deleteData", (req, res)=>{
   res.send("data deleted"); 
 });
 
+//error handling 
+app.use("/getUserdata", (req, res)=>{
+  //try{
+    // logical errors from the database
+    throw new error ("xyz error");
+ // }
+//  catch(err){
+    //res.status(500).send("some error occured");
+  //}
+})
+app.use((err, req, res , next)=>{
+  if(err){
+  res.send("something went wrong");
+  }
+})
+
 
 app.listen(7777, () => {
   console.log("server is running on port 7777");
