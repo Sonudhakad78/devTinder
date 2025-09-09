@@ -3,23 +3,20 @@ const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/user");
 
-app.post("/signup", async(req, res) =>{
-  const user = new User({
-    firstName: "Sonu",
-    lastName: "Dhakad",
-    emailId: "dhakadsonu219@gmail.com",
-    age: 20,
-  })
+app.use(express.json());  // middleware to understand json data
 
-  try{
+app.post("/signup", async (req, res) => {
+  // console.log(req.body);
+
+  const user = new User(req.body);
+
+  try {
     await user.save();
-   res.send("user signed up and data saved to db");
-  }
-  catch(err){
+    res.send("user signed up and data saved to db");
+  } catch (err) {
     res.status(400).send("error while signing up the user");
   }
-
-})
+});
 
 connectDB()
   .then(() => {
