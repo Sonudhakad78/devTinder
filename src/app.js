@@ -18,6 +18,63 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// fetch user details based on last name 
+app.get("/user", async (req, res)=>{
+  try{
+    const user = await User.findOne({lastName: req.body.lastName})
+    if(!user){
+      return res.status(404).send("user not found");
+    }
+      else{
+      res.send(user);
+      }
+  }
+  catch(err){
+    res.status(400).send("error while fetching users");
+  }
+})
+
+// fetch all users
+app.get("/feed", async (req, res)=>{
+  try{
+    const users = await User.find({});
+    if(!users){
+      return res.status(404).send("no users found");
+    }
+    else{
+      res.send(users);
+    }
+  }
+  catch(err){
+    res.status(400).send("error while fetching users");
+  }
+} )
+
+// delete the user
+app.delete("/user", async (req, res)=>{
+  const userId = req.body.userId;
+  try{
+    const user = await User.findByIdAndDelete(userId);
+    res.send("user deleted successfully");
+  }
+  catch(err){
+    res.status(400).send("error while deleting the user");
+  }
+})
+
+//update the user
+app.patch("/user", async (req, res)=>{
+  const userId = req.body.userId;
+  const data = req.body;
+  try{
+    const user = await User.findByIdAndUpdate(userId, data);
+    res.send("user updated successfully");
+  }
+  catch(err){
+    res.status(400).send("error while updating the user");
+  }
+})
+
 connectDB()
   .then(() => {
     console.log("database connected successfully");
